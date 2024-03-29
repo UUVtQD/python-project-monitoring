@@ -17,19 +17,12 @@ def current_time():
 
 # def write_record(instance_name, record):
 try:
-    conn = pymongo.MongoClient("mongodb://admin:eKae4epeejoo1Moh@10.110.2.92:10017/monitoring?authSource=admin&retryWrites=true&w=majority")
+    conn = pymongo.MongoClient("mongodb://monitoring:monitoring@127.0.0.1:10017/monitoring?authSource=monitoring&retryWrites=true&w=majority")
     print(conn)
 except ConnectionError as e:
     print("could not connect to MongoDB")
     print(e)
     
-    # db = conn.["monitoring"]
-    # collection = db["records"]
-    # record["instance_name"] = instance_name
-    # # record["output_dir"] = output_dir
-    # record["hostname"] = platform.node()
-    # collection.insert_one(record)
-    # conn.close()
     
 parser = argparse.ArgumentParser()
 parser.add_argument("instance_name", help="The unique name of the instance. They way we define it.")
@@ -47,10 +40,11 @@ record = {
 }
 
 db = conn["monitoring"]
-print(db)
+print(f"DB is: {db}")
 collection = db["records"]
-print(collection)
+print(f"Collection is: {collection}")
 
-# collection.insert_one(record)
+document_id = collection.insert_one(record)
+print("Document inserted with id: ", document_id.inserted_id)
 
 conn.close()
