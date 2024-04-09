@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:7-jammy
+    ports:
+      - '10017:27017'
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=adminpwd
+      - MONGO_INITDB_DATABASE=admin-db
+    restart: always
+    volumes:
+      - mongodb-data:/data/db
+      - ./mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
+volumes:
+  mongodb-data:
+    driver: local
